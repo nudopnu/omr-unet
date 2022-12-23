@@ -21,7 +21,7 @@ SPLITS = [20, 3, 2]
 SPLIT_POINTS = np.cumsum(SPLITS)
 
 INITIAL_SEED = 41
-NUM_AUG_PER_SAMPLE = 120
+NUM_AUG_PER_SAMPLE = 12
 MAX_SAMPLE_IDX = 25
 
 
@@ -67,6 +67,8 @@ def get_sample(sample_idx):
             (x * img_w, y * img_h, (x + w) * img_w, (y + h) * img_h), fill="#fff"
         )
     staff_mask = cv2.cvtColor(np.array(staff_mask), cv2.COLOR_BGR2GRAY)
+    
+    staff_mask = load_mask(PNG_PATH, sample_idx, 48)
 
     # generate brace image as convex hulls
     brace_mask = load_mask(PNG_PATH, sample_idx, 3, hull=True)
