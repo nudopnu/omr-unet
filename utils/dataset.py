@@ -60,7 +60,7 @@ def load_stafflines(png_path, bbox_path, sample_idx):
     y_old = -1
     cur_ys = []
     for y in staff_ys:
-        if y_old < y - 1 and y_old != -1:
+        if (y_old < y - 1 and y_old != -1) or y == staff_ys[-1]:
             y0 = cur_ys[0]
             y1 = cur_ys[-1]
             x_vals = np.where(staff_mask[y1:y1+1, :] > 0)[1]
