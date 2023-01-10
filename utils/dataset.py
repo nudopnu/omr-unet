@@ -29,23 +29,24 @@ def load_classIdxMap():
         classlist = json.load(jsonfile)
     return { k['class']:k['id'] for k in classlist}
 
-def load_bboxes(bbox_path, sample_idx, name, img_shape=None):
+def load_bboxes(bbox_path, sample_idx, name=None, img_shape=None):
 
     with open(f"{bbox_path}/{sample_idx}.json", "r") as bboxfile:
         bboxes = json.load(bboxfile)
 
-    bboxes = [bbox for bbox in bboxes if bbox["type"] == name]
+    if name != None:
+        bboxes = [bbox for bbox in bboxes if bbox["type"] == name]
     if img_shape == None:
         return bboxes
 
-    res = []
     for bbox in bboxes:
-        x = int(bbox["x"] * img_shape[1])
-        y = int(bbox["y"] * img_shape[0])
-        w = int(bbox["width"] * img_shape[1])
-        h = int(bbox["height"] * img_shape[0])
-        res.append(np.array([x, y, w, h]))
-    return res
+        bbox["x"] = int(bbox["x"] * img_shape[1])
+        bbox["y"] = int(bbox["y"] * img_shape[0])
+        bbox["cx"] = int(bbox["cx"] * img_shape[1])
+        bbox["cy"] = int(bbox["cy"] * img_shape[0])
+        bbox["width"] = int(bbox["width"] * img_shape[1])
+        bbox["height"] = int(bbox["height"] * img_shape[0])
+    return bboxes
 
 def load_stafflines(png_path, bbox_path, sample_idx):
     img = cv2.imread("../../datasets/generated/png/001/out-0.png")
