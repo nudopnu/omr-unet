@@ -1,2 +1,6 @@
 albumentations
 seaborn
+opencv-contrib-python
+matplotlib
+tensorflow
+pillow
